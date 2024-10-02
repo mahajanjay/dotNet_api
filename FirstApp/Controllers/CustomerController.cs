@@ -5,7 +5,7 @@ using System.Data;
 
 namespace FirstApp.Controllers
 {
-    [Controller]
+    [ApiController]
     [Route("[Controller]")]
     public class CustomerController : Controller
     {
@@ -40,6 +40,11 @@ namespace FirstApp.Controllers
         [HttpPost]
         public IActionResult AddCustomer([FromBody] CustomerModel customerModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Returns validation errors
+            }
+
             int result = 0;
             try
             {
