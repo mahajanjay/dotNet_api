@@ -36,5 +36,18 @@ namespace FirstApp.Controllers
             catch (Exception ex) { }
             return customers;
         }
+
+        [HttpPost]
+        public IActionResult AddCustomer([FromBody] CustomerModel customerModel)
+        {
+            int result = 0;
+            try
+            {
+                result = _dbService.AddCustomer(customerModel);
+            }
+            catch(Exception ex) { }
+
+            return Ok(result);
+        }
     }
 }

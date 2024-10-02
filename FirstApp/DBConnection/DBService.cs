@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using FirstApp.Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace FirstApp.DBConnection
@@ -48,6 +49,25 @@ namespace FirstApp.DBConnection
             }
             
             return dt;
+        }
+
+        public int AddCustomer(CustomerModel customerModel)
+        {
+            int result = 0;
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("[dbo].[SP_Details]", Customer_connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@mode", SqlDbType.NVarChar).Value = "insert";
+                cmd.Parameters.Add("@name", SqlDbType.NVarChar).Value = customerModel.Name;
+                cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value = customerModel.Email;
+                result = cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex) { }
+            finally { CloseConnection(); }
+
+            return result;
         }
 
     }
