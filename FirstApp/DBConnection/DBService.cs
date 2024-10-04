@@ -70,5 +70,41 @@ namespace FirstApp.DBConnection
             return result;
         }
 
+        public int UpdateCustomer(CustomerModel customerModel)
+        {
+            int result = 0;
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("[dbo].[SP_Details]", Customer_connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@mode", SqlDbType.NVarChar).Value = "update";
+                cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = customerModel.Id;
+                cmd.Parameters.Add("@name", SqlDbType.NVarChar).Value= customerModel.Name;
+                cmd.Parameters.Add("@email", SqlDbType.NVarChar).Value= customerModel.Email;
+                result = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex) { }
+            finally { CloseConnection(); }
+            return result;
+        }
+
+        public int DeleteCustomer(int id)
+        {
+            int result = 0;
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("[dbo].[SP_Details]", Customer_connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@mode", SqlDbType.NVarChar).Value = "delete";
+                cmd.Parameters.Add("@id", SqlDbType.NVarChar).Value = id;
+                result = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex) { }
+            finally { CloseConnection(); }
+            return result;
+        }
+
     }
 }

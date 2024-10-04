@@ -54,5 +54,41 @@ namespace FirstApp.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut]
+        public IActionResult UpdateCustomer([FromBody] CustomerModel customerModel, int ID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState); // Returns validation errors
+            }
+
+            int result = 0;
+            try
+            {
+                customerModel.Id = ID;
+                result = _dbService.UpdateCustomer(customerModel);
+            }
+            catch(Exception ex) { }
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteCustomer(int id)
+        {
+            int result = 0;
+            if(id == 0)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                result = _dbService.DeleteCustomer(id);
+            }
+            catch(Exception ex) { }
+            return Ok(result);
+        }
     }
 }
