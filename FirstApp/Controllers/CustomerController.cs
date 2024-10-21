@@ -1,13 +1,15 @@
 ﻿using FirstApp.DBConnection;
 using FirstApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
 namespace FirstApp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[Controller]")]
-    public class CustomerController : Controller
+    public class CustomerController : ControllerBase
     {
         private readonly DBService _dbService;
 
