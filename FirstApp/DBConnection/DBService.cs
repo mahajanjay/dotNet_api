@@ -30,6 +30,7 @@ namespace FirstApp.DBConnection
             }
         }
 
+        #region Customers
         public DataTable GetCustomers()
         {
             DataTable dt = new DataTable();
@@ -105,6 +106,35 @@ namespace FirstApp.DBConnection
             finally { CloseConnection(); }
             return result;
         }
+
+        #endregion Cutstomers
+
+        #region File
+
+        public int AddFile(string fileName, byte[] data)
+        {
+            int result = 0;
+            try
+            {
+                OpenConnection();
+                SqlCommand cmd = new SqlCommand("[dbo].[SP_Details]", Customer_connection);
+                cmd.CommandType= CommandType.StoredProcedure;
+                cmd.Parameters.Add("@mode", SqlDbType.NVarChar).Value = "addFile";
+                cmd.Parameters.Add("@FILE_NAME", SqlDbType.NVarChar).Value = fileName;
+                cmd.Parameters.Add("@FILE_DATA", SqlDbType.VarBinary).Value = data;
+                object newFileId = cmd.ExecuteScalar();
+
+                if (newFileId != null)
+                {
+                    result = Convert.ToInt32(newFileId); // Convert the result to an integer
+                }
+            }
+            catch (Exception ex) { }
+            finally { CloseConnection(); }
+            return result;
+        } 
+
+        #endregion File
 
     }
 }
